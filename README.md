@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+![Log in](https://github.com/user-attachments/assets/b18ca854-579a-40ab-9812-4a71a292bf19)
 
-First, run the development server:
+
+## 🌅 Introduction
+
+Horizon is a financial SaaS platform built with Next.js, designed to connect to multiple bank accounts, display transactions in real-time, allow users to transfer money, and manage their finances comprehensively.
+
+
+## ✨ Features
+
+- 🔒 Authentication: Ultra-secure server-side rendering (SSR) authentication with robust validations and authorization mechanisms.
+- 🔗 Connect Banks: Integrates with Plaid to link multiple bank accounts.
+- 🏠 Home Page: Displays a general overview of user accounts, including total balance from all connected banks, recent transactions, and spending categorized.
+- 🏦 My Banks: Lists all connected banks with respective balances and account details.
+- 📜 Transaction History: Offers pagination and filtering options for viewing transaction history from different banks.
+- ⏱️ Real-time Updates: Reflects changes across all relevant pages upon connecting new bank accounts.
+- 💸 Funds Transfer: Allows users to transfer funds using Dwolla, requiring fields and recipient bank ID.
+- 📱 Responsiveness: Ensures a seamless user experience across desktop, tablet, and mobile devices.
+- 🛠️ Code Architecture: Emphasizes code reusability and maintainability.
+
+
+## 🛠️ Built With
+- ⚛️ [Next.js](https://nextjs.org)
+- 🟦 [TypeScript](https://www.typescriptlang.org/)
+- 📝 [Appwrite](https://appwrite.io/)
+- 🔄 [Plaid](https://plaid.com/)
+- 💳 [Dwolla](https://www.dwolla.com/)
+- 🔄 [React Hook Form](https://react-hook-form.com/)
+- 🛠️ [Zod](https://zod.dev/)
+- 🎨 [TailwindCSS](https://tailwindcss.com/)
+- 📊 [Chart.js](https://www.chartjs.org/)
+- ⚛️ [ShadCN](https://github.com/shadcn)
+
+
+## 🚀 Getting Started 
+
+**📋 Prerequisites**
+Ensure you have the following installed on your machine:
+
+- 📂 [Git](https://git-scm.com/)
+- 🌐 [Node.js](https://nodejs.org/en)
+- 📦 [npm](https://www.npmjs.com/) (Node Package Manager)
+
+
+**📥 Cloning the Repository**
+
+```bash
+git clone https://github.com/Ayomidemi/horizon-banking-app.git
+cd horizon
+```
+
+**📦 Installation**
+
+Install the project dependencies using npm:
+
+```bash
+npm install
+```
+
+**🔧 Set Up Environment Variables**
+
+Create a new file named .env in the root of your project and make sure it mirrors the structure of env.example.
+
+**🚀 Running the Project**
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Then, open [http://localhost:3000](http://localhost:3000) in your browser to view the project.
