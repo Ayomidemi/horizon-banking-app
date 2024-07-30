@@ -1,5 +1,6 @@
 
-![Log in](https://github.com/user-attachments/assets/b18ca854-579a-40ab-9812-4a71a292bf19)
+
+<img width="1440" alt="Screenshot 2024-07-30 at 6 21 32 PM" src="https://github.com/user-attachments/assets/30a8328c-406c-45d3-9db7-89f0780a65b2">
 
 
 ## 🌅 Introduction
