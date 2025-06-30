@@ -110,8 +110,8 @@ const TransactionHistory = async ({
             Account not found
           </h3>
           <p className="text-gray-500 text-center max-w-sm">
-            We couldn't load the account data. Please try selecting a different
-            account or refresh the page.
+            We couldn&apos;t load the account data. Please try selecting a
+            different account or refresh the page.
           </p>
         </div>
       </div>

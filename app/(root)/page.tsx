@@ -60,8 +60,8 @@ const HomePage = async ({ searchParams: { id, page } }: SearchParamProps) => {
               Unable to load accounts
             </h3>
             <p className="text-gray-500 text-center max-w-md">
-              We're experiencing technical difficulties. Please refresh the page
-              or try again later.
+              We&apos;re experiencing technical difficulties. Please refresh the
+              page or try again later.
             </p>
           </div>
         </div>

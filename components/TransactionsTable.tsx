@@ -54,7 +54,7 @@ const TransactionsTable = ({ transactions }: TransactionTableProps) => {
           No transactions yet
         </h3>
         <p className="text-sm text-gray-500 text-center max-w-sm">
-          When you make transactions with your connected accounts, they'll
+          When you make transactions with your connected accounts, they&apos;ll
           appear here.
         </p>
       </div>
