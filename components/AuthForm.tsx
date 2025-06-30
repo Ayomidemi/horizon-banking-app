@@ -20,6 +20,7 @@ const AuthForm = ({ type }: { type: string }) => {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const formSchema = authFormSchema(type);
 
@@ -35,6 +36,7 @@ const AuthForm = ({ type }: { type: string }) => {
   // Define a submit handler.
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsLoading(true);
+    setError("");
 
     try {
       // Sign up with Appwrite & create plaid token
@@ -64,10 +66,27 @@ const AuthForm = ({ type }: { type: string }) => {
           password: data.password,
         });
 
-        if (response) router.push("/");
+        if (response) {
+          router.push("/");
+        } else {
+          setError(
+            "Account found but user data is missing. Please contact support."
+          );
+        }
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      console.log("Authentication error:", error);
+
+      // Handle specific error types
+      if (error?.type === "user_already_exists") {
+        setError(
+          "An account with this email already exists. Please sign in instead."
+        );
+      } else if (type === "sign-in") {
+        setError("Invalid email or password. Please try again.");
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
     } finally {
       setIsLoading(false);
     }
@@ -193,6 +212,10 @@ const AuthForm = ({ type }: { type: string }) => {
                     "Sign Up"
                   )}
                 </Button>
+
+                {error && (
+                  <p className="text-red-500 text-sm text-center">{error}</p>
+                )}
               </div>
             </form>
           </Form>

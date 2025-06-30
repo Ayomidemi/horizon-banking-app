@@ -32,9 +32,14 @@ export const getUserInfo = async ({ userId }: getUserInfoProps) => {
       [Query.equal("userId", [userId])]
     );
 
+    if (user.documents.length === 0) {
+      return null;
+    }
+
     return parseStringify(user.documents[0]);
   } catch (error) {
     console.log(error);
+    return null;
   }
 };
 
@@ -51,11 +56,31 @@ export const signIn = async ({ email, password }: signInProps) => {
       secure: true,
     });
 
-    const user = await getUserInfo({ userId: session.userId });
+    let user = await getUserInfo({ userId: session.userId });
+
+    // If user not found in database, create missing user document
+    if (!user) {
+      console.log(
+        "User not found in database, creating missing user document..."
+      );
+
+      // Get the authenticated user data using session client
+      const { account: sessionAccount } = await createSessionClient();
+      const authUser = await sessionAccount.get();
+      console.log("Auth user data:", authUser);
+
+      // Create the missing user document
+      user = await createMissingUserDocument(authUser);
+
+      if (!user) {
+        throw new Error("Failed to create user document");
+      }
+    }
 
     return parseStringify(user);
   } catch (error) {
-    console.error("Error", error);
+    console.error("Error during sign in:", error);
+    throw error;
   }
 };
 
@@ -109,7 +134,8 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 
     return parseStringify(newUser);
   } catch (error) {
-    console.error("Error", error);
+    console.error("Error during sign up:", error);
+    throw error;
   }
 };
 
@@ -122,8 +148,27 @@ export async function getLoggedInUser() {
     const user = await getUserInfo({ userId: result.$id });
 
     return parseStringify(user);
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    console.log("Error getting logged in user:", error);
+
+    // Handle specific error types that should redirect to sign-in
+    if (
+      error?.code === 401 ||
+      error?.type === "general_unauthorized_scope" ||
+      error?.message?.includes("No session")
+    ) {
+      return null; // This will trigger redirect to sign-in
+    }
+
+    // For network errors, return null but log the issue
+    if (
+      error?.code === "UND_ERR_CONNECT_TIMEOUT" ||
+      error?.code === "UND_ERR_HEADERS_TIMEOUT"
+    ) {
+      console.warn("Network timeout when checking authentication");
+      return null;
+    }
+
     return null;
   }
 }
@@ -313,5 +358,41 @@ export const getBankByAccountId = async ({
     return parseStringify(bank.documents[0]);
   } catch (error) {
     console.log(error);
+  }
+};
+
+// CREATE MISSING USER DOCUMENT
+export const createMissingUserDocument = async (authUser: any) => {
+  try {
+    console.log("Creating missing user document for:", authUser.$id);
+    const { database } = await createAdminClient();
+
+    // Create a basic user document with available auth data
+    const newUser = await database.createDocument(
+      DATABASE_ID!,
+      USER_COLLECTION_ID!,
+      ID.unique(),
+      {
+        userId: authUser.$id,
+        email: authUser.email,
+        firstName: authUser.name?.split(" ")[0] || "User",
+        lastName: authUser.name?.split(" ")[1] || "",
+        // Add default values for required fields
+        address1: "",
+        city: "",
+        state: "",
+        postalCode: "",
+        dateOfBirth: "",
+        ssn: "",
+        dwollaCustomerId: "", // This will need to be created separately
+        dwollaCustomerUrl: "",
+      }
+    );
+
+    console.log("Created missing user document:", newUser.$id);
+    return parseStringify(newUser);
+  } catch (error) {
+    console.error("Error creating missing user document:", error);
+    return null;
   }
 };
